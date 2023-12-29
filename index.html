@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emissions Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            padding-top: 200px;
+            max-width: 70%;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            background-image: url('./public/background.png');
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        label {
+            text-align: start;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 100px;
+            display: flex;
+            font-size: 18px;
+            flex: 1;
+            line-height: 2;
+        }
+
+        .validation-error {
+            color: red;
+            min-height: 20px;
+            font-size: 12px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: row;
+            flex-direction: column;
+            min-width: 56%;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(169, 169, 169, 0.8);
+            border-radius: 8px;
+        }
+
+        .select-container {
+            display: flex;
+        }
+
+        select {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 16px;
+            appearance: none;
+            background-image: url('path/to/your/custom-arrow-icon.png'); 
+            background-position: right 10px center;
+            background-repeat: no-repeat;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4CAF50; 
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('path/to/your/custom-arrow-icon.png');
+            background-position: right 10px center;
+            background-repeat: no-repeat;
+        }
+
+        select::-ms-expand {
+            display: none;
+        }
+
+        select option {
+            background-color: #fff;
+            color: #333;
+        }
+
+        .dark-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            max-width: 30%;
+            color: white; 
+        }
+
+       
+        .text-small {
+            font-size: 16px;
+        }
+
+        .text-medium {
+            font-size: 24px;
+        }
+
+        .text-large {
+            font-size: 46px;
+            margin: 0;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .button-link {
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-top: 40px;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        @media screen and (max-width: 1100px) {
+            body {
+                padding-top: 20px;
+                max-width: 96%;
+                display: block;
+                height: 120vh;
+            }
+            .dark-container {
+                max-width: 100%;
+                margin-bottom: 10px;
+                flex: none;
+            }
+            .select-container {
+                flex-direction: column;
+            }
+            .text-small {
+                font-size: 12px;
+            }
+
+            .text-medium {
+                font-size: 16px;
+            }
+
+            .text-large {
+                font-size: 28px;
+                margin: 0;
+            }
+            #result {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dark-container">
+        <p class="text-medium">Measure Your Impact</p>
+        <p class="text-large">Calculate CO2 Emissions on the BENELUX to POLAND Corridor</p>
+        <p class="text-small">Discover the Difference – Shift Your Road Transports to RAIL and Reduce CO2 Footprint!</p>
+    </div>
+    <div class="input-container">
+        <div class="select-container">
+            <div class="form">
+                <label for="origin">Origin City:</label>
+                <select id="origin">
+                    <option value="" disabled selected>Select Origin</option>
+                    <option value="Rotterdam">Rotterdam</option>
+                    <option value="Dordrecht">Dordrecht</option>
+                    <option value="Oss">Oss</option>
+                    <option value="Tilburg">Tilburg</option>
+                    <option value="Breda">Breda</option>
+                    <option value="Roosendaal">Roosendaal</option>
+                    <option value="Eindhoven">Eindhoven</option>
+                    <option value="Antwerp">Antwerp</option>
+                    <option value="Uithoorn">Uithoorn</option>
+                    <option value="Amsterdam">Amsterdam</option>
+                    <option value="Zaanstad">Zaanstad</option>
+                    <option value="Beemster">Beemster</option>
+                    <option value="Almere">Almere</option>
+                    <option value="Utrecht">Utrecht</option>
+                    <option value="Amersfoort">Amersfoort</option>
+                    <option value="Turnhout">Turnhout</option>
+                    <option value="Mol">Mol</option>
+                    <option value="Geel">Geel</option>
+                    <option value="Tessenderlo">Tessenderlo</option>
+                    <option value="Leuven">Leuven</option>
+                    <option value="Brussel">Brussel</option>
+                    <option value="Gent">Gent</option>
+                    <option value="Dendermonde">Dendermonde</option>
+                    <option value="Terneuzen">Terneuzen</option>
+                </select>
+            
+                <label for="destination">Destination City:</label>
+                <select id="destination">
+                    <option value="" disabled selected>Select Destination</option>
+                    <option value="Lodz">Lodz</option>
+                    <option value="Warschau">Warschau</option>
+                    <option value="Radomsko">Radomsko</option>
+                    <option value="Lublin">Lublin</option>
+                    <option value="Czestochawa">Czestochawa</option>
+                    <option value="Kielce">Kielce</option>
+                    <option value="Poznan">Poznan</option>
+                    <option value="Kalisz">Kalisz</option>
+                    <option value="Wroclaw">Wroclaw</option>
+                    <option value="Leszon">Leszon</option>
+                    <option value="Bydgoszcz">Bydgoszcz</option>
+                    <option value="Plock">Plock</option>
+                    <option value="Siedlce">Siedlce</option>
+                </select>
+                <div class="validation-error">
+                    <span id="formError" class="validation-error"></span>
+                </div>
+            </div>
+            
+            <div id="result"></div>
+        </div>
+        
+        <div class="button-container">
+            <button onclick="clearSelection()">Clear Selection</button>
+        </div>
+    </div>
+
+    <a href="https://calendly.com/fernando-romero-6ve/30min" class="button-link">Book a chat!</a>
+
+    <script>
+        var originToRotterdam = {
+            Rotterdam: 0.013,
+            Dordrecht: 0.027,
+            Oss: 0.11,
+            Tilburg: 0.099,
+            Breda: 0.079,
+            Roosendaal: 0.068,
+            Eindhoven: 0.13,
+            Antwerp: 0.11,
+            Uithoorn: 0.088,
+            Amsterdam: 0.094,
+            Zaanstad: 0.1,
+            Beemster: 0.12,
+            Almere: 0.12,
+            Utrecht: 0.077,
+            Amersfoort: 0.1,
+            Turnhout: 0.13,
+            Mol: 0.17,
+            Geel: 0.16,
+            Tessenderlo: 0.17,
+            Leuven: 0.18,
+            Brussel: 0.17,
+            Gent: 0.17,
+            Dendermonde: 0.16,
+            Terneuzen: 0.15,
+        };
+
+        var trainCO2RotterdamLods = 0.59
+
+        var lodsToDestination = {
+            Lodz: 0.017,
+            Warschau: 0.18,
+            Radomsko: 0.11,
+            Lublin: 0.38,
+            Czestochawa: 0.16,
+            Kielce: 0.2,
+            Poznan: 0.27,
+            Kalisz: 0.17,
+            Wroclaw: 0.28,
+            Leszon: 0.36,
+            Bydgoszcz: 0.29,
+            Plock: 0.17,
+            Siedlce: 0.31,
+        };
+
+        var truckCO2Cities = {
+            Rotterdam: {
+                Lodz: 1.32,
+                Warschau: 1.44,
+                Radomsko: 1.43,
+                Lublin: 1.67,
+                Czestochawa: 1.40,
+                Kielce: 1.20,
+                Poznan: 1.08,
+                Kalisz: 1.23,
+                Wroclaw: 1.18,
+                Leszon: 1.11,
+                Bydgoszcz: 1.25,
+                Plock: 1.38,
+                Siedlce: 1.57,
+            },
+            Dordrecht: {
+                Lodz: 1.32,
+                Warschau: 1.44,
+                Radomsko: 1.43,
+                Lublin: 1.67,
+                Czestochawa: 1.42,
+                Kielce: 1.51,
+                Poznan: 1.08,
+                Kalisz: 1.23,
+                Wroclaw: 1.21,
+                Leszon: 1.11,
+                Bydgoszcz: 1.25,
+                Plock: 1.38,
+                Siedlce: 1.57,
+            },
+            Oss: {
+                Lodz: 1.27,
+                Warschau: 1.38,
+                Radomsko: 1.37,
+                Lublin: 1.61,
+                Czestochawa: 1.34,
+                Kielce: 1.46,
+                Poznan: 1.02,
+                Kalisz: 1.18,
+                Wroclaw: 1.13,
+                Leszon: 1.06,
+                Bydgoszcz: 1.20,
+                Plock: 1.32,
+                Siedlce: 1.52,
+            },
+            Tilburg: {
+                Lodz: 1.31,
+                Warschau: 1.42,
+                Radomsko:1.41,
+                Lublin: 1.66,
+                Czestochawa: 1.36,
+                Kielce: 1.5,
+                Poznan: 1.06,
+                Kalisz: 1.22,
+                Wroclaw: 1.14,
+                Leszon: 1.1,
+                Bydgoszcz: 1.24,
+                Plock: 1.36,
+                Siedlce: 1.56,
+            },
+            Breda: {
+                Lodz: 1.33,
+                Warschau: 1.45,
+                Radomsko:1.44,
+                Lublin: 1.68,
+                Czestochawa: 1.39,
+                Kielce: 1.53,
+                Poznan: 1.09,
+                Kalisz: 1.25,
+                Wroclaw: 1.17,
+                Leszon: 1.13,
+                Bydgoszcz: 1.27,
+                Plock: 1.39,
+                Siedlce: 1.59,
+            },
+            Roosendaal: {
+                Lodz: 1.36,
+                Warschau: 1.48,
+                Radomsko:1.47,
+                Lublin: 1.71,
+                Czestochawa: 1.41,
+                Kielce: 1.56,
+                Poznan: 1.12,
+                Kalisz: 1.27,
+                Wroclaw: 1.2,
+                Leszon: 1.15,
+                Bydgoszcz: 1.3,
+                Plock: 1.42,
+                Siedlce: 1.62,
+            },
+            Eindhoven: {
+                Lodz: 1.27,
+                Warschau: 1.38,
+                Radomsko:1.37,
+                Lublin: 1.62,
+                Czestochawa: 1.32,
+                Kielce: 1.46,
+                Poznan: 1.02,
+                Kalisz: 1.18,
+                Wroclaw: 1.1,
+                Leszon: 1.06,
+                Bydgoszcz: 1.2,
+                Plock: 1.32,
+                Siedlce: 1.52,
+            },
+            Antwerp: {
+                Lodz: 1.36,
+                Warschau: 1.48,
+                Radomsko:1.47,
+                Lublin: 1.71,
+                Czestochawa: 1.41,
+                Kielce: 1.56,
+                Poznan: 1.12,
+                Kalisz: 1.27,
+                Wroclaw: 1.2,
+                Leszon: 1.15,
+                Bydgoszcz: 1.3,
+                Plock: 1.42,
+                Siedlce: 1.62,
+            },
+            Uithoorn: {
+                Lodz: 1.3,
+                Warschau: 1.41,
+                Radomsko:1.4,
+                Lublin: 1.64,
+                Czestochawa: 1.37,
+                Kielce: 1.49,
+                Poznan: 1.05,
+                Kalisz: 1.21,
+                Wroclaw: 1.16,
+                Leszon: 1.09,
+                Bydgoszcz: 1.23,
+                Plock: 1.35,
+                Siedlce: 1.55,
+            },
+            Amsterdam: {
+                Lodz: 1.29,
+                Warschau: 1.4,
+                Radomsko:1.39,
+                Lublin: 1.63,
+                Czestochawa: 1.36,
+                Kielce: 1.48,
+                Poznan: 1.04,
+                Kalisz: 1.2,
+                Wroclaw: 1.15,
+                Leszon: 1.08,
+                Bydgoszcz: 1.22,
+                Plock: 1.34,
+                Siedlce: 1.54,
+            },
+            Zaanstad: {
+                Lodz: 1.3,
+                Warschau: 1.41,
+                Radomsko:1.4,
+                Lublin: 1.64,
+                Czestochawa: 1.37,
+                Kielce: 1.49,
+                Poznan: 1.05,
+                Kalisz: 1.21,
+                Wroclaw: 1.15,
+                Leszon: 1.09,
+                Bydgoszcz: 1.23,
+                Plock: 1.35,
+                Siedlce: 1.55,
+            },
+            Beemster: {
+                Lodz: 1.31,
+                Warschau: 1.42,
+                Radomsko:1.41,
+                Lublin: 1.66,
+                Czestochawa: 1.38,
+                Kielce: 1.5,
+                Poznan: 1.06,
+                Kalisz: 1.22,
+                Wroclaw: 1.17,
+                Leszon: 1.1,
+                Bydgoszcz: 1.24,
+                Plock: 1.36,
+                Siedlce: 1.56,
+            },
+            Almere: {
+                Lodz: 1.27,
+                Warschau: 1.39,
+                Radomsko:1.38,
+                Lublin: 1.62,
+                Czestochawa: 1.35,
+                Kielce: 1.47,
+                Poznan: 1.03,
+                Kalisz: 1.19,
+                Wroclaw: 1.13,
+                Leszon: 1.07,
+                Bydgoszcz: 1.21,
+                Plock: 1.33,
+                Siedlce: 1.53,
+            },
+            Utrecht: {
+                Lodz: 1.26,
+                Warschau: 1.38,
+                Radomsko:1.37,
+                Lublin: 1.61,
+                Czestochawa: 1.34,
+                Kielce: 1.45,
+                Poznan: 1.02,
+                Kalisz: 1.17,
+                Wroclaw: 1.12,
+                Leszon: 1.05,
+                Bydgoszcz: 1.19,
+                Plock: 1.32,
+                Siedlce: 1.51,
+            },
+            Amersfoort: {
+                Lodz: 1.23,
+                Warschau: 1.35,
+                Radomsko:1.34,
+                Lublin: 1.58,
+                Czestochawa: 1.31,
+                Kielce: 1.43,
+                Poznan: 0.99,
+                Kalisz: 1.15,
+                Wroclaw: 1.09,
+                Leszon: 1.03,
+                Bydgoszcz: 1.17,
+                Plock: 1.29,
+                Siedlce: 1.49,
+            },
+            Turnhout: {
+                Lodz: 1.32,
+                Warschau: 1.43,
+                Radomsko:1.42,
+                Lublin: 1.66,
+                Czestochawa: 1.37,
+                Kielce: 1.51,
+                Poznan: 1.07,
+                Kalisz: 1.23,
+                Wroclaw: 1.15,
+                Leszon: 1.11,
+                Bydgoszcz: 1.25,
+                Plock: 1.37,
+                Siedlce: 1.57,
+            },
+            Mol: {
+                Lodz: 1.32,
+                Warschau: 1.44,
+                Radomsko:1.43,
+                Lublin: 1.67,
+                Czestochawa: 1.37,
+                Kielce: 1.52,
+                Poznan: 1.08,
+                Kalisz: 1.23,
+                Wroclaw: 1.16,
+                Leszon: 1.11,
+                Bydgoszcz: 1.26,
+                Plock: 1.38,
+                Siedlce: 1.57,
+            },
+            Geel: {
+                Lodz: 1.32,
+                Warschau: 1.44,
+                Radomsko:1.43,
+                Lublin: 1.67,
+                Czestochawa: 1.38,
+                Kielce: 1.52,
+                Poznan: 1.08,
+                Kalisz: 1.24,
+                Wroclaw: 1.16,
+                Leszon: 1.12,
+                Bydgoszcz: 1.26,
+                Plock: 1.38,
+                Siedlce: 1.58,
+            },
+            Tessenderlo: {
+                Lodz: 1.34,
+                Warschau: 1.46,
+                Radomsko:1.45,
+                Lublin: 1.69,
+                Czestochawa: 1.39,
+                Kielce: 1.54,
+                Poznan: 1.1,
+                Kalisz: 1.26,
+                Wroclaw: 1.18,
+                Leszon: 1.14,
+                Bydgoszcz: 1.28,
+                Plock: 1.4,
+                Siedlce: 1.6,
+            },
+            Leuven: {
+                Lodz: 1.38,
+                Warschau: 1.49,
+                Radomsko:1.48,
+                Lublin: 1.73,
+                Czestochawa: 1.43,
+                Kielce: 1.57,
+                Poznan: 1.13,
+                Kalisz: 1.29,
+                Wroclaw: 1.21,
+                Leszon: 1.17,
+                Bydgoszcz: 1.31,
+                Plock: 1.43,
+                Siedlce: 1.63,
+            },
+            Brussel: {
+                Lodz: 1.41,
+                Warschau: 1.52,
+                Radomsko:1.51,
+                Lublin: 1.76,
+                Czestochawa: 1.46,
+                Kielce: 1.6,
+                Poznan: 1.16,
+                Kalisz: 1.29,
+                Wroclaw: 1.24,
+                Leszon: 1.2,
+                Bydgoszcz: 1.34,
+                Plock: 1.46,
+                Siedlce: 1.66,
+            },
+            Gent: {
+                Lodz: 1.43,
+                Warschau: 1.54,
+                Radomsko:1.53,
+                Lublin: 1.78,
+                Czestochawa: 1.48,
+                Kielce: 1.62,
+                Poznan: 1.18,
+                Kalisz: 1.34,
+                Wroclaw: 1.26,
+                Leszon: 1.22,
+                Bydgoszcz: 1.36,
+                Plock: 1.48,
+                Siedlce: 1.68,
+            },
+            Dendermonde: {
+                Lodz: 1.41,
+                Warschau: 1.52,
+                Radomsko:1.51,
+                Lublin: 1.76,
+                Czestochawa: 1.46,
+                Kielce: 1.6,
+                Poznan: 1.16,
+                Kalisz: 1.32,
+                Wroclaw: 1.24,
+                Leszon: 1.22,
+                Bydgoszcz: 1.34,
+                Plock: 1.46,
+                Siedlce: 1.66,
+            },
+            Terneuzen: {
+                Lodz: 1.43,
+                Warschau: 1.54,
+                Radomsko:1.54,
+                Lublin: 1.78,
+                Czestochawa: 1.48,
+                Kielce: 1.62,
+                Poznan: 1.19,
+                Kalisz: 1.34,
+                Wroclaw: 1.26,
+                Leszon: 1.22,
+                Bydgoszcz: 1.36,
+                Plock: 1.49,
+                Siedlce: 1.68,
+            },
+        }
+
+        document.getElementById('origin').addEventListener('change', recalculateOnSelectChange);
+        document.getElementById('destination').addEventListener('change', recalculateOnSelectChange);
+
+        function recalculateOnSelectChange() {
+            var origin = document.getElementById('origin').value;
+            var destination = document.getElementById('destination').value;
+            if(origin && destination) {
+                calculateCO2(); 
+            }
+           
+        }
+
+        function calculateCO2() {
+            var origin = document.getElementById('origin').value;
+            var destination = document.getElementById('destination').value;
+
+            if (!origin) {
+                document.getElementById('formError').innerHTML = 'Origin and destination are required.';
+                return;
+            } else {
+                document.getElementById('formError').innerHTML = '';
+            }
+
+            if (!destination) {
+                document.getElementById('formError').innerHTML = 'Origin and destination are required.';
+                return;
+            } else {
+                document.getElementById('formError').innerHTML = '';
+            }
+
+            var trainCO2 = 0
+
+            trainCO2 += originToRotterdam[origin]
+            trainCO2 += trainCO2RotterdamLods
+            trainCO2 += lodsToDestination[destination]
+
+            var truckCO2 = truckCO2Cities[origin][destination];
+
+
+            document.getElementById('result').innerHTML = `
+                Truck CO2 Emissions: ${truckCO2.toFixed(2)} tonnes per trip<br>
+                Train CO2 Emissions: ${trainCO2.toFixed(2)} tonnes per trip<br>
+                `
+        }
+
+        function clearSelection() {
+            var originSelect = document.getElementById('origin');
+            var destinationSelect = document.getElementById('destination');
+
+            originSelect.value = '';
+            destinationSelect.value = '';
+
+            // Set selects back to placeholder options
+            originSelect.options[0].selected = true;
+            destinationSelect.options[0].selected = true;
+
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('formError').innerHTML = '';
+        }
+
+    </script>
+</body>
+</html>
